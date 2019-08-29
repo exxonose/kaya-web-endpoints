@@ -1,4 +1,4 @@
-import pool from '../../config';
+import { pool } from './middlewares/config';
 
 class userController {
   static getUsers(req, res){
