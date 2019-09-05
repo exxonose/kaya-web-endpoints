@@ -1,6 +1,21 @@
-import { pool } from './middlewares/config';
+import dotenv from 'dotenv';
+import pool from '../middlewares/config';
+dotenv.config();
 
 class userController {
+
+  static createUser(req, res){
+    const { fullName, email, password, address, phoneNumber } = req.body
+  
+    pool.query('INSERT INTO users (fullName, email, password, address, phoneNumber) VALUES ($1, $2, $3, $4, $5)', [fullName, email, password, address, phoneNumber], (error, results) => {
+      if (error) {
+        throw error
+      }
+      res.status(201).send(`User added with email: ${results.email}`)
+    })
+  }
+  
+
   static getUsers(req, res){
     pool.query('SELECT * FROM users ORDER BY id ASC', (error, results) => {
       if (error) {
@@ -21,25 +36,13 @@ class userController {
     })
   }
 
-  static createUser(req, res){
-    const { name, email } = req.body
-  
-    pool.query('INSERT INTO users (name, email) VALUES ($1, $2)', [name, email], (error, results) => {
-      if (error) {
-        throw error
-      }
-      res.status(201).send(`User added with ID: ${result.insertId}`)
-    })
-  }
-
-  
 static updateUser(req, res){
     const id = parseInt(req.params.id)
-    const { name, email } = req.body
+    const {fullName, email, password, address, phoneNumber } = req.body
   
     pool.query(
-      'UPDATE users SET name = $1, email = $2 WHERE id = $3',
-      [name, email, id],
+      'UPDATE users SET fullName = $1, email = $2, password = $3, address = $4, phoneNumber = $5  WHERE id = $6',
+      [fullName, email, password, address, phoneNumber, id],
       (error, results) => {
         if (error) {
           throw error

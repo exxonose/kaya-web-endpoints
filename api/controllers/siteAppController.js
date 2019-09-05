@@ -1,6 +1,19 @@
-import pool from '../../config';
+import dotenv from 'dotenv';
+import pool from '../middlewares/config';
+dotenv.config();
 
 class siteController {
+  static createSiteApp(req, res){
+    const { name} = req.body
+  
+    pool.query('INSERT INTO siteApp (name) VALUES ($1)', [name], (error, results) => {
+      if (error) {
+        throw error
+      }
+      res.status(201).send(`siteApp added with ID: ${result.insertId}`)
+    })
+  }
+
   static getSiteApp(req, res){
     pool.query('SELECT * FROM siteApp ORDER BY id ASC', (error, results) => {
       if (error) {
@@ -21,21 +34,9 @@ class siteController {
     })
   }
 
-  static createSiteApp(req, res){
-    const { name, email } = req.body
-  
-    pool.query('INSERT INTO siteApp (name) VALUES ($1)', [name], (error, results) => {
-      if (error) {
-        throw error
-      }
-      res.status(201).send(`siteApp added with ID: ${result.insertId}`)
-    })
-  }
-
-  
-static updateSiteApp(req, res){
+  static updateSiteApp(req, res){
     const id = parseInt(req.params.id)
-    const { name} = req.body
+    const {name} = req.body
   
     pool.query(
       'UPDATE siteApp SET name = $1 WHERE id = $2',
@@ -56,7 +57,7 @@ static updateSiteApp(req, res){
       if (error) {
         throw error
       }
-      res.status(200).send(`User deleted with ID: ${id}`)
+      res.status(200).send(`site Application deleted with ID: ${id}`)
     })
   }
 

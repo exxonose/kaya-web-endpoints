@@ -4,6 +4,8 @@
   "description": "# kaya-web-endpoints",
   "main": "app.js",
   "scripts": {
+    "create": "babel-node api/database/create-tables",
+    "drop": "babel-node api/database/drop-tables",
     "test": "mocha",
     "start": "babel-watch api/app.js"
   },
@@ -47,6 +49,9 @@
     "pg-hstore": "^2.3.3",
     "pg-pool": "^2.0.7",
     "sequelize": "^5.12.3"
+  },
+  "engines": {
+    "node": "10.15.1"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
