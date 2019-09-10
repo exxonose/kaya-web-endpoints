@@ -8,11 +8,11 @@ import siteApp from '../models/siteappdb';
 
 const Tables = `CREATE TABLE IF NOT EXISTS users(
     id SERIAL PRIMARY KEY NOT NULL,
-    fullName VARCHAR(255) NOT NULL,
+    fullname VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     address TEXT,
-    phoneNumber VARCHAR(255) NOT NULL,
+    phonenumber VARCHAR(255) NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP
   );
@@ -23,23 +23,23 @@ const Tables = `CREATE TABLE IF NOT EXISTS users(
   );
   CREATE TABLE IF NOT EXISTS contact(
     id SERIAL PRIMARY KEY NOT NULL,
-    firstName VARCHAR(255) NOT NULL,
-    lastName VARCHAR(255) NOT NULL UNIQUE,
+    firstname VARCHAR(255) NOT NULL,
+    lastname VARCHAR(255) NOT NULL UNIQUE,
     email VARCHAR(255) NOT NULL,
-    phoneNumber VARCHAR(255) NOT NULL,
+    phonenumber VARCHAR(255) NOT NULL,
     message TEXT,
     created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP
   );
 CREATE TABLE IF NOT EXISTS quote(
   id SERIAL PRIMARY KEY NOT NULL,
-  companyName VARCHAR(50) NOT NULL,
-  loadingSite VARCHAR(50) NOT NULL,
-  companyEmail VARCHAR(50) NOT NULL,
-  companyPhone VARCHAR(50) NOT NULL,
+  companyname VARCHAR(50) NOT NULL,
+  loadingsite VARCHAR(50) NOT NULL,
+  companyemail VARCHAR(50) NOT NULL,
+  companyphone VARCHAR(50) NOT NULL,
   product VARCHAR(50) NOT NULL,
   tonnage VARCHAR(50) NOT NULL,
-  truckType VARCHAR(50) NOT NULL,
+  trucktype VARCHAR(50) NOT NULL,
   created_on TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 CREATE TABLE IF NOT EXISTS counter(

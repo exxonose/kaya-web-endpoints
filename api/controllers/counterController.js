@@ -1,64 +1,117 @@
 import dotenv from 'dotenv';
 import pool from '../middlewares/config';
+import response from '../middlewares/response';
 dotenv.config();
 
 class counterController {
 
     static createCounter(req, res){
         const { amount, name } = req.body
-      
-        pool.query('INSERT INTO counter (amount, name) VALUES ($1, $2)', [amount, name], (error, results) => {
-          if (error) {
-            throw error
-          }
-          res.status(201).send(`Counter added with ID: ${results.insertId}`)
-        })
-      }    
+
+        // validate if the user is authenticated
+        // validate for non empty fields
+        // validate if record exists,
+
+        try {
+          const query = 'SELECT * FROM counter WHERE name = $1';
+          pool.query(query, [name], (err, data) => {
+            if(err) return err;
+            if(data.rowCount > 0){
+              return response.errorResponse(
+                  res, 409, `${name} already exists`
+              );
+            }
+          })
+        }
+
+        catch(err) {
+          return response.errorResponse(
+              res, 500, 'Internal Server Error.'
+     
+          ) }
+ 
+          finally {
+
+            const insertQuery = 'INSERT INTO counter (amount, name) VALUES ($1, $2) RETURNING id';
+            pool.query(insertQuery, [amount, name], (err, data) => {
+              if(err) return err;
+              const { id } = data.rows[0];
+              return response.successResponse(
+                res, 201, `${name} successfully added to Counter`, 
+                { id, name, amount}
+              )   
+            }) 
+         }
+    }   
 
   static getCounter(req, res){
-    pool.query('SELECT * FROM counter ORDER BY id ASC', (error, results) => {
-      if (error) {
-        throw error
-      }
-      res.status(200).json(results.rows)
-    })
-  }
+      pool.query('SELECT * FROM counter ORDER BY id ASC', (err, data) => {
+        if (err) return err;
+        return response.successResponse(
+          res, 201, 'All counter items', data.rows,
+        )   
+      })
+    }
 
   static getCounterById(req, res){
-    const id = parseInt(req.params.id)
+    const id = Number(req.params.id)
+      pool.query('SELECT * FROM counter WHERE id = $1', [id], (err, data) => {
+        if(err) return response.errorResponse(
+          res, 400, 'Bad Request.'
+      )
+      if(data.rowCount <= 0) return response.errorResponse(
+        res, 404, `counter item with id number '${id}' not found`, data.rows,
+          )  
   
-    pool.query('SELECT * FROM counter WHERE id = $1', [id], (error, results) => {
-      if (error) {
-        throw error
-      }
-      res.status(200).json(results.rows)
-    })
-  }
+        return response.successResponse(
+          res, 201, 'counter selected', data.rows,
+        )
+      })
+    }
   
-static updateCounter(req, res){
-    const id = parseInt(req.params.id)
-    const { amount, name } = req.body
-  
-    pool.query(
-      'UPDATE counter SET amount = $1, name = $2 WHERE id = $3',
-      [amount, name, id],
-      (error, results) => {
-        if (error) {
-          throw error
+  static updateCounter(req, res) {
+    const {id} = req.params;
+    const counterId = Number(id)
+    const { amount, name } = req.body;
+    try{
+      const validateCounterIdQuery = 'SELECT * FROM counter WHERE id = $1';
+      pool.query(validateCounterIdQuery, [counterId], (err, result)=>{
+        if(err) return err;
+        if(result.rowCount <= 0){
+          return response.errorResponse(
+            res, 404, 'The counter record could not be found'
+          )
         }
-        res.status(200).send(`Counter modified with ID: ${id}`)
-      }
-    )
+      })
+    } 
+    catch(err) {
+      return response.errorResponse(
+          res, 500, 'Internal Server Error.'
+      )
+  }
+    finally{
+      const updateCountQuery = 'UPDATE counter SET amount = $1, name = $2 WHERE id = $3';
+      pool.query(updateCountQuery, [amount, name, counterId], (err, data) => {
+        if(err) return err;
+
+        return response.successResponse(
+          res, 201, 'Record Updated Successfully', {amount, name}
+        )
+      })
+    } 
   }
 
+    
+
   static deleteCounter(req, res){
-    const id = parseInt(req.params.id)
+    const id = Number(req.params.id)
   
-    pool.query('DELETE FROM counter WHERE id = $1', [id], (error, results) => {
-      if (error) {
-        throw error
-      }
-      res.status(200).send(`Counter deleted with ID: ${id}`)
+    pool.query('DELETE FROM counter WHERE id = $1', [id], (err, results) => {
+      if (err) return err;
+      return response.successResponse(
+        res, 200, `Counter with ID: ${id} deleted`
+      )
+     
     })
   }
 
