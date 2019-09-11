@@ -5,11 +5,9 @@ dotenv.config();
 
 class siteController {
   static createSiteApp(req, res){
-    const id = Number(req.params.id)
     const { name} = req.body
-  
     try {
-      const query = 'SELECT * FROM siteapp WHERE email = $1'; 
+      const query = 'SELECT * FROM siteapp WHERE name = $1'; 
       pool.query(query, [name], (err, data) => {
         if(err) return err;
         if(data.rowCount > 0){
@@ -70,7 +68,7 @@ class siteController {
     const {name} = req.body
   
   try {
-    const validateSiteAppQuery = 'SELECT * FROM users WHERE id = 1$';
+    const validateSiteAppQuery = 'SELECT * FROM siteapp WHERE id = $1';
     pool.query(validateSiteAppQuery, [siteId], (err, data) =>{
       if(err) return err;
       if(data.rowCount <= 0){
@@ -78,7 +76,17 @@ class siteController {
           res, 404, 'SiteApp could not be found',
         )
       }
-    })
+    });
+     const recordExistsQuery = 'SELECT * FROM siteapp WHERE name = $1 AND id <> $2';
+     pool.query(recordExistsQuery, [name, siteId], (err, result) =>{
+       if(err) return err;
+       if(result.rowCount > 0){
+         return response.errorResponse(
+           res, 409, 'Record already exist.'
+         )
+       }
+     })
+
     }
     catch(err){
       return response.errorResponse(

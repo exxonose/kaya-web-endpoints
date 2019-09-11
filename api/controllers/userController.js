@@ -79,8 +79,19 @@ static updateUser(req, res){
         res, 404, 'User could not be found',
       )
     }
+  });
+    
+  const recordExistsQuery = 'SELECT * FROM users WHERE (email = $1 OR phonenumber = $2) AND id <> $3';
+  pool.query(recordExistsQuery, [email, phoneNumber, userId], (err, result) =>{
+    if(err) return err;
+    if(result.rowCount > 0){
+      return response.errorResponse(
+        res, 409, 'Record already exist.'
+      )
+    }
   })
-  }
+    
+  } 
   catch(err){
     return response.errorResponse(
       res, 505, 'Internal Server Error'
@@ -97,9 +108,7 @@ static updateUser(req, res){
         res, 200, 'Record Successfully Updated', {fullName, email, password, address, phoneNumber}
       )
     })
-
   }
-
 }
 
 

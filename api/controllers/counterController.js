@@ -23,7 +23,7 @@ class counterController {
             }
           })
         }
-
+ 
         catch(err) {
           return response.errorResponse(
               res, 500, 'Internal Server Error.'
@@ -82,7 +82,17 @@ class counterController {
             res, 404, 'The counter record could not be found'
           )
         }
-      })
+      });
+
+      const recordExistsQuery = 'SELECT * FROM counter WHERE name = $1 AND id <> $2';
+      pool.query(recordExistsQuery, [name, counterId], (err, reply)=> {
+        if(err) return err;
+        if(reply.rowCount > 0 ) {
+          return response.errorResponse(
+            res, 409, 'Record already exists.'
+          )
+        }
+      }); 
     } 
     catch(err) {
       return response.errorResponse(

@@ -1,7 +1,6 @@
 import dotenv from 'dotenv';
 import pool from '../middlewares/config';
 import response from '../middlewares/response';
-import { type } from 'os';
 dotenv.config();
 
 class quoteController {
