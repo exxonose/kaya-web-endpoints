@@ -8,12 +8,12 @@ class userController {
   static createUser(req, res){
     const { fullName, email, password, address, phoneNumber } = req.body
     try {
-      const query = 'SELECT * FROM users WHERE email = $1'; 
-      pool.query(query, [email], (err, data) => {
+      const query = 'SELECT * FROM users WHERE (email = $1 OR phonenumber = $2)'; 
+      pool.query(query, [email, phoneNumber], (err, data) => {
         if(err) return err;
         if(data.rowCount > 0){
           return response.errorResponse(
-              res, 409, `${email} already exists`
+              res, 409, `Record already exists `
           );
         }
       })
