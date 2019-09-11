@@ -1,62 +1,121 @@
-import pool from '../../config';
+import dotenv from 'dotenv';
+import pool from '../middlewares/config';
+import response from '../middlewares/response';
+dotenv.config();
 
 class siteController {
+  static createSiteApp(req, res){
+    const { name} = req.body
+    try {
+      const query = 'SELECT * FROM siteapp WHERE name = $1'; 
+      pool.query(query, [name], (err, data) => {
+        if(err) return err;
+        if(data.rowCount > 0){
+          return response.errorResponse(
+              res, 409, `${name} already exists`
+          );
+        }
+      })
+    }
+
+    catch(err) {
+      return response.errorResponse(
+          res, 500, 'Internal Server Error.'
+ 
+      ) }
+      finally {
+
+        const insertQuery = 'INSERT INTO siteapp (name) VALUES ($1) RETURNING id';
+        pool.query(insertQuery, [name], (err, data) => {
+          if(err) return err;
+          const { id } = data.rows[0];
+          return response.successResponse(
+            res, 201, `${name} with id '${id}' has been successfully added to siteapp`, 
+            { id,name}
+          )   
+        }) 
+     }
+    }
+
   static getSiteApp(req, res){
-    pool.query('SELECT * FROM siteApp ORDER BY id ASC', (error, results) => {
-      if (error) {
-        throw error
-      }
-      res.status(200).json(results.rows)
+    pool.query('SELECT * FROM siteapp ORDER BY id ASC', (err, data) => {
+      if (err) return err;
+      return response.successResponse(
+        res, 201, 'All users', data.rows,
+      )   
     })
   }
 
   static getSiteAppById(req, res){
-    const id = parseInt(req.params.id)
-  
-    pool.query('SELECT * FROM siteApp WHERE id = $1', [id], (error, results) => {
-      if (error) {
-        throw error
-      }
-      res.status(200).json(results.rows)
-    })
-  }
-
-  static createSiteApp(req, res){
-    const { name, email } = req.body
-  
-    pool.query('INSERT INTO siteApp (name) VALUES ($1)', [name], (error, results) => {
-      if (error) {
-        throw error
-      }
-      res.status(201).send(`siteApp added with ID: ${result.insertId}`)
-    })
-  }
-
-  
-static updateSiteApp(req, res){
-    const id = parseInt(req.params.id)
-    const { name} = req.body
-  
-    pool.query(
-      'UPDATE siteApp SET name = $1 WHERE id = $2',
-      [name, id],
-      (error, results) => {
-        if (error) {
-          throw error
-        }
-        res.status(200).send(`siteApp modified with ID: ${id}`)
-      }
+    const id = Number(req.params.id)
+    pool.query('SELECT * FROM siteapp WHERE id = $1', [id], (err, data) => {
+      if(err) return response.errorResponse(
+        res, 400, 'Bad Request.'
     )
+    if(data.rowCount <= 0) return response.errorResponse(
+      res, 404, `siteapp with id number '${id}' not found`, data.rows,
+        )  
+
+      return response.successResponse(
+        res, 201, 'siteapp selected', data.rows,
+      ) 
+    })
+  } 
+
+  static updateSiteApp(req, res){
+    const {id} = req.params
+    const siteId = Number(id);
+    const {name} = req.body
+  
+  try {
+    const validateSiteAppQuery = 'SELECT * FROM siteapp WHERE id = $1';
+    pool.query(validateSiteAppQuery, [siteId], (err, data) =>{
+      if(err) return err;
+      if(data.rowCount <= 0){
+        return response.errorResponse(
+          res, 404, 'SiteApp could not be found',
+        )
+      }
+    });
+     const recordExistsQuery = 'SELECT * FROM siteapp WHERE name = $1 AND id <> $2';
+     pool.query(recordExistsQuery, [name, siteId], (err, result) =>{
+       if(err) return err;
+       if(result.rowCount > 0){
+         return response.errorResponse(
+           res, 409, 'Record already exist.'
+         )
+       }
+     })
+
+    }
+    catch(err){
+      return response.errorResponse(
+        res, 505, 'Internal Server Error'
+      )
+  
+    }
+  
+    finally {
+      const updateSiteAppQuery = 'UPDATE siteapp SET name = $1 WHERE id = $2';
+      pool.query(updateSiteAppQuery, [name, siteId], (err, data) =>{
+        if(err) return err;
+  
+        return response.successResponse(
+          res, 200, 'Record Successfully Updated', {name}
+        )
+      })
+  
+    }
   }
 
   static deleteSiteApp(req, res){
-    const id = parseInt(req.params.id)
+    const id = Number(req.params.id)
   
-    pool.query('DELETE FROM siteApp WHERE id = $1', [id], (error, results) => {
-      if (error) {
-        throw error
-      }
-      res.status(200).send(`User deleted with ID: ${id}`)
+    pool.query('DELETE FROM siteapp WHERE id = $1', [id], (err, data) => {
+      if (err) return err;
+      return response.successResponse(
+        res, 200, `Site Application with ID: ${id} deleted`
+      )
     })
   }
 
