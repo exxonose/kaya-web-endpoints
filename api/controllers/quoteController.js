@@ -81,8 +81,18 @@ class quoteController {
                  res, 404, 'Quote could not be found'
                )
              }
-           })
-      }
+           });
+           const recordExistsQuery = 'SELECT * FROM quote WHERE name = $1 AND id <> $2';
+           pool.query(recordExistsQuery, [name, siteId], (err, result) =>{
+             if(err) return err;
+             if(result.rowCount > 0){
+               return response.errorResponse(
+                 res, 409, 'Record already exist.'
+               )
+             }
+           });
+      
+          }
 
         catch(err) {
           return response.errorResponse(
