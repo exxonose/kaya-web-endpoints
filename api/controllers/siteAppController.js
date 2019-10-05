@@ -41,7 +41,7 @@ class siteController {
     pool.query('SELECT * FROM siteapp ORDER BY id ASC', (err, data) => {
       if (err) return err;
       return response.successResponse(
-        res, 201, 'All users', data.rows,
+        res, 201, 'All Menus', data.rows,
       )   
     })
   }

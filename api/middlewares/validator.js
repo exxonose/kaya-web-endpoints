@@ -68,7 +68,7 @@ class validator {
         firstName: Joi.string().required().regex(/^[A-Za-z0-9]+$/i),
         lastName: Joi.string().required().regex(/^[A-Za-z0-9]+$/i),
         email:  Joi.string().required().email(),
-        phoneNumber: Joi.string().regex(/^\d{4}-\d{3}-\d{4}$/).required(),
+        phoneNumber: Joi.string().required(),
         message: Joi.string(),
        
 

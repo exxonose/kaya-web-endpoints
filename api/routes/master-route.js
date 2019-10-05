@@ -5,7 +5,8 @@ import counterController from '../controllers/counterController';
 import siteController from '../controllers/siteAppController';
 import quoteController from '../controllers/quoteController';
 import contactController from '../controllers/contactController';
-
+import serviceController from '../controllers/serviceController';
+import templateController from '../controllers/templateController';
 
 const routes = Router();
 
@@ -73,7 +74,7 @@ routes.delete('/quote/:id', quoteController.deleteQuote);
 
 //Contact
 routes.post('/contact',
-validator.validateContact, 
+//validator.validateContact, 
 contactController.createContact);
 
 routes.get('/contact', contactController.getContact);
@@ -85,8 +86,34 @@ contactController.updateContact);
 
 routes.delete('/contact/:id', contactController.deleteContact);
 
+//Service
 
+routes.post('/service',
+serviceController.createService);
 
+routes.get('/service',
+ serviceController.getService);
 
+routes.get('/service/:id', 
+serviceController.getServiceById);
+
+routes.put('/service/:id',
+serviceController.updateService);
+
+routes.delete('/service/:id',
+ serviceController.deleteService);
+
+//Template
+
+routes.post('/template',
+templateController.createTemplate);
+
+routes.get('/template', templateController.getTemplate);
+routes.get('/template/:id', templateController.getTemplateById);
+
+routes.put('/template/:id',
+templateController.updateTemplate);
+
+routes.delete('/template/:id', templateController.deleteTemplate);
 
 export default routes;

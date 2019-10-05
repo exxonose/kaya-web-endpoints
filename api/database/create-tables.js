@@ -4,7 +4,8 @@ import quote from '../models/quotedb';
 import counter from '../models/counterdb';
 import contact from '../models/contactusdb';
 import siteApp from '../models/siteappdb';
- 
+import service from '../models/servicedb';
+import template from '../models/templatedb';
 
 const Tables = `CREATE TABLE IF NOT EXISTS users(
     id SERIAL PRIMARY KEY NOT NULL,
@@ -47,6 +48,26 @@ CREATE TABLE IF NOT EXISTS counter(
   amount INT NOT NULL,
   name VARCHAR(50) NULL,
   created_on TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TABLE IF NOT EXISTS service(
+  id SERIAL PRIMARY KEY NOT NULL,
+  title VARCHAR(50) NULL,
+  icon VARCHAR(50) NULL,
+  heading VARCHAR(50) NULL,
+  description TEXT,
+  created_on TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TABLE IF NOT EXISTS template(
+  id SERIAL PRIMARY KEY NOT NULL,
+  phonenumber VARCHAR(50) NULL,
+  email VARCHAR(50) NOT NULL,
+  address VARCHAR(50),
+  companyname VARCHAR(50) NULL,
+  companylogo BLOB NOT NULL,
+  facebook VARCHAR(50) NOT NULL,
+  twitter VARCHAR(50) NOT NULL,
+  copyright TEXT,
+  created_on TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
 )`;
 
 const queryDb = async (query) => {
@@ -76,6 +97,8 @@ try {
   await create(siteApp, 'siteapp');
   await create(contact, 'contact');
   await create(quote, 'quote');
+  await create(service, 'service');
+  await create(template, 'template');
   console.log('all tables has been created');
 } catch (error) {
   console.log(error);
