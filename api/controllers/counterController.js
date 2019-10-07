@@ -13,7 +13,7 @@ class counterController {
         // validate if record exists,
 
         try {
-          const query = 'SELECT * FROM counter WHERE name = $1';
+          const query = 'SELECT * FROM tbl_api_counter WHERE name = $1';
           pool.query(query, [name], (err, data) => {
             if(err) return err;
             if(data.rowCount > 0){
@@ -32,7 +32,7 @@ class counterController {
  
           finally {
 
-            const insertQuery = 'INSERT INTO counter (amount, name) VALUES ($1, $2) RETURNING id';
+            const insertQuery = 'INSERT INTO tbl_api_counter (amount, name) VALUES ($1, $2) RETURNING id';
             pool.query(insertQuery, [amount, name], (err, data) => {
               if(err) return err;
               const { id } = data.rows[0];
@@ -45,7 +45,7 @@ class counterController {
     }   
 
   static getCounter(req, res){
-      pool.query('SELECT * FROM counter ORDER BY id ASC', (err, data) => {
+      pool.query('SELECT * FROM tbl_api_counter ORDER BY id ASC', (err, data) => {
         if (err) return err;
         return response.successResponse(
           res, 201, 'All counter items', data.rows,
@@ -55,7 +55,7 @@ class counterController {
 
   static getCounterById(req, res){
     const id = Number(req.params.id)
-      pool.query('SELECT * FROM counter WHERE id = $1', [id], (err, data) => {
+      pool.query('SELECT * FROM tbl_api_counter WHERE id = $1', [id], (err, data) => {
         if(err) return response.errorResponse(
           res, 400, 'Bad Request.'
       )
@@ -74,7 +74,7 @@ class counterController {
     const counterId = Number(id)
     const { amount, name } = req.body;
     try{
-      const validateCounterIdQuery = 'SELECT * FROM counter WHERE id = $1';
+      const validateCounterIdQuery = 'SELECT * FROM tbl_api_counter WHERE id = $1';
       pool.query(validateCounterIdQuery, [counterId], (err, result)=>{
         if(err) return err;
         if(result.rowCount <= 0){
@@ -84,7 +84,7 @@ class counterController {
         }
       });
 
-      const recordExistsQuery = 'SELECT * FROM counter WHERE name = $1 AND id <> $2';
+      const recordExistsQuery = 'SELECT * FROM tbl_api_counter WHERE name = $1 AND id <> $2';
       pool.query(recordExistsQuery, [name, counterId], (err, reply)=> {
         if(err) return err;
         if(reply.rowCount > 0 ) {
@@ -100,7 +100,7 @@ class counterController {
       )
   }
     finally{
-      const updateCountQuery = 'UPDATE counter SET amount = $1, name = $2 WHERE id = $3';
+      const updateCountQuery = 'UPDATE tbl_api_counter SET amount = $1, name = $2 WHERE id = $3';
       pool.query(updateCountQuery, [amount, name, counterId], (err, data) => {
         if(err) return err;
 
@@ -116,7 +116,7 @@ class counterController {
   static deleteCounter(req, res){
     const id = Number(req.params.id)
   
-    pool.query('DELETE FROM counter WHERE id = $1', [id], (err, results) => {
+    pool.query('DELETE FROM tbl_api_counter WHERE id = $1', [id], (err, results) => {
       if (err) return err;
       return response.successResponse(
         res, 200, `Counter with ID: ${id} deleted`

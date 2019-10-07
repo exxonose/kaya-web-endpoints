@@ -9,7 +9,7 @@ class serviceController {
     const {icon, heading, description} = req.body;
     const id = Number(req.params.id);
     try {
-      const query = 'SELECT * FROM service WHERE id = $1'; 
+      const query = 'SELECT * FROM tbl_api_service WHERE id = $1'; 
       pool.query(query, [id], (err, data) => {
         if(err) return err;
         if(data.rowCount > 0){
@@ -28,7 +28,7 @@ class serviceController {
 
       finally {
 
-        const insertQuery = 'INSERT INTO service (icon, heading, description) VALUES ($1, $2, $3) RETURNING id';
+        const insertQuery = 'INSERT INTO tbl_api_service (icon, heading, description) VALUES ($1, $2, $3) RETURNING id';
         pool.query(insertQuery, [icon, heading, description], (err, data) => {
           if(err) return err;
           const { id } = data.rows[0];
@@ -42,7 +42,7 @@ class serviceController {
   
 
   static getService(req, res){
-    pool.query('SELECT * FROM service ORDER BY id ASC', (err, data) => {
+    pool.query('SELECT * FROM tbl_api_service ORDER BY id ASC', (err, data) => {
       if (err) return err;
       return response.successResponse(
         res, 201, 'All service contents', data.rows,
@@ -52,7 +52,7 @@ class serviceController {
 
   static getServiceById(req, res){
     const id = Number(req.params.id)
-      pool.query('SELECT * FROM service WHERE id = $1', [id], (err, data) => {
+      pool.query('SELECT * FROM tbl_api_service WHERE id = $1', [id], (err, data) => {
         if(err) return response.errorResponse(
           res, 400, 'Bad Request.'
       )
@@ -74,7 +74,7 @@ class serviceController {
       const {icon, heading, description} = req.body;
 
       try {
-           const validateServiceIdQuery = 'SELECT * FROM service WHERE id = $1';
+           const validateServiceIdQuery = 'SELECT * FROM tbl_api_service WHERE id = $1';
            pool.query(validateServiceIdQuery, [serviceId], (err, result) =>{
              if(err) return err;
              if(result.rowCount <= 0){
@@ -83,7 +83,7 @@ class serviceController {
                )
              }
            });
-           const recordExistsQuery = 'SELECT * FROM service WHERE heading = $1 AND id <> $2';
+           const recordExistsQuery = 'SELECT * FROM tbl_api_service WHERE heading = $1 AND id <> $2';
            pool.query(recordExistsQuery, [heading, serviceId], (err, result) =>{
              if(err) return err;
              if(result.rowCount > 0){
@@ -103,7 +103,7 @@ class serviceController {
         }
 
         finally {
-          const updateServiceQuery = 'UPDATE service SET icon = $1, heading = $2, description = $3';
+          const updateServiceQuery = 'UPDATE tbl_api_service SET icon = $1, heading = $2, description = $3';
           pool.query(updateServiceQuery, [icon, heading, description, serviceId], (err, data) =>{
             if(err) return err;
 
@@ -119,7 +119,7 @@ class serviceController {
   static deleteService(req, res){
     const id = Number(req.params.id)
   
-    pool.query('DELETE FROM service WHERE id = $1', [id], (err, results) => {
+    pool.query('DELETE FROM tbl_api_service WHERE id = $1', [id], (err, results) => {
       if (err) return err;
       return response.successResponse(
         res, 200, `Service with ID: ${id} deleted`

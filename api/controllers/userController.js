@@ -8,7 +8,7 @@ class userController {
   static createUser(req, res){
     const { fullName, email, password, address, phoneNumber } = req.body
     try {
-      const query = 'SELECT * FROM users WHERE (email = $1 OR phonenumber = $2)'; 
+      const query = 'SELECT * FROM tbl_api_users WHERE (email = $1 OR phonenumber = $2)'; 
       pool.query(query, [email, phoneNumber], (err, data) => {
         if(err) return err;
         if(data.rowCount > 0){
@@ -27,7 +27,7 @@ class userController {
 
       finally {
 
-        const insertQuery = 'INSERT INTO users (fullname, email, password, address, phonenumber) VALUES ($1, $2, $3, $4, $5) RETURNING id';
+        const insertQuery = 'INSERT INTO tbl_api_users (fullname, email, password, address, phonenumber) VALUES ($1, $2, $3, $4, $5) RETURNING id';
         pool.query(insertQuery, [fullName, email, password, address, phoneNumber], (err, data) => {
           if(err) return err;
           const { id } = data.rows[0];
@@ -40,7 +40,7 @@ class userController {
     }
 
   static getUsers(req, res){
-    pool.query('SELECT * FROM users ORDER BY id ASC', (err, data) => {
+    pool.query('SELECT * FROM tbl_api_users ORDER BY id ASC', (err, data) => {
       if (err) return err;
       return response.successResponse(
         res, 201, 'All users', data.rows,
@@ -50,7 +50,7 @@ class userController {
 
   static getUserById(req, res){
     const id = Number(req.params.id)
-    pool.query('SELECT * FROM users WHERE id = $1', [id], (err, data) => {
+    pool.query('SELECT * FROM tbl_api_users WHERE id = $1', [id], (err, data) => {
       if(err) return response.errorResponse(
         res, 400, 'Bad Request.'
     )
@@ -71,7 +71,7 @@ static updateUser(req, res){
   const {fullName, email, password, address, phoneNumber } = req.body
 
   try {
-  const validateUserQuery = 'SELECT * FROM users WHERE id = 1$';
+  const validateUserQuery = 'SELECT * FROM tbl_api_users WHERE id = 1$';
   pool.query(validateUserQuery, [userId], (err, data) =>{
     if(err) return err;
     if(data.rowCount <= 0){
@@ -81,7 +81,7 @@ static updateUser(req, res){
     }
   });
     
-  const recordExistsQuery = 'SELECT * FROM users WHERE (email = $1 OR phonenumber = $2) AND id <> $3';
+  const recordExistsQuery = 'SELECT * FROM tbl_api_users WHERE (email = $1 OR phonenumber = $2) AND id <> $3';
   pool.query(recordExistsQuery, [email, phoneNumber, userId], (err, result) =>{
     if(err) return err;
     if(result.rowCount > 0){
@@ -100,7 +100,7 @@ static updateUser(req, res){
   }
 
   finally {
-    const updateUserQuery = 'UPDATE users SET fullname = $1, email = $2, password = $3, address = $4, phonenumber = $5  WHERE id = $6';
+    const updateUserQuery = 'UPDATE tbl_api_users SET fullname = $1, email = $2, password = $3, address = $4, phonenumber = $5  WHERE id = $6';
     pool.query(updateUserQuery, [fullName, email, password, address, phoneNumber, userId], (err, data) =>{
       if(err) return err;
 
@@ -115,7 +115,7 @@ static updateUser(req, res){
   static deleteUser(req, res){
     const id = Number(req.params.id)
   
-    pool.query('DELETE FROM users WHERE id = $1', [id], (err, results) => {
+    pool.query('DELETE FROM tbl_api_users WHERE id = $1', [id], (err, results) => {
       if (err) return err;
       return response.successResponse(
         res, 200, `User with ID: ${id} deleted`

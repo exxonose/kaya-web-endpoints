@@ -8,7 +8,7 @@ class contactController {
   static createContact(req, res){
     const { firstName, lastName, email, phoneNumber, message } = req.body
     try {
-      const query = 'SELECT * FROM contact WHERE email = $1'; 
+      const query = 'SELECT * FROM tbl_api_contact WHERE email = $1'; 
       pool.query(query, [email], (err, data) => {
         if(err) return err;
         if(data.rowCount > 0){
@@ -27,7 +27,7 @@ class contactController {
 
       finally {
 
-        const insertQuery = 'INSERT INTO contact (firstname, lastname, email, phonenumber, message) VALUES ($1, $2, $3, $4, $5) RETURNING id';
+        const insertQuery = 'INSERT INTO tbl_api_contact (firstname, lastname, email, phonenumber, message) VALUES ($1, $2, $3, $4, $5) RETURNING id';
         pool.query(insertQuery, [firstName, lastName, email, phoneNumber, message], (err, data)  => {
           if(err) return err;
           const { id } = data.rows[0];
@@ -42,7 +42,7 @@ class contactController {
   
 
   static getContact(req, res){
-    pool.query('SELECT * FROM contact ORDER BY id ASC', (err, data) => {
+    pool.query('SELECT * FROM tbl_api_contact ORDER BY id ASC', (err, data) => {
       if (err) return err;
       return response.successResponse(
         res, 201, 'Full contact list', data.rows,
@@ -52,7 +52,7 @@ class contactController {
 
   static getContactById(req, res){
     const id = Number(req.params.id)
-    pool.query('SELECT * FROM contact WHERE id = $1', [id], (err, data) => {
+    pool.query('SELECT * FROM tbl_api_contact WHERE id = $1', [id], (err, data) => {
      if(err) return response.errorResponse(
         res, 400, 'Bad Request.'
     )
@@ -73,7 +73,7 @@ class contactController {
     const {firstName, lastName, email, phoneNumber, message} = req.body
 
     try {
-      const validateContactQuery = 'SELECT * FROM contact WHERE id = $1';
+      const validateContactQuery = 'SELECT * FROM tbl_api_contact WHERE id = $1';
       pool.query(validateContactQuery, [contactId], (err, data) =>{
         if(err) return err;
         if(data.rowCount <= 0){
@@ -91,7 +91,7 @@ class contactController {
     }
 
     finally {
-      const updateContactQuery = 'UPDATE contact SET firstname = $1, lastname = $2, email = $3, phonenumber = $4, message = $5 WHERE id = $6';
+      const updateContactQuery = 'UPDATE tbl_api_contact SET firstname = $1, lastname = $2, email = $3, phonenumber = $4, message = $5 WHERE id = $6';
       pool.query(updateContactQuery, [firstName, lastName, email, phoneNumber, message, contactId], (err, data) => {
         if(err) return err;
 
@@ -105,7 +105,7 @@ class contactController {
   static deleteContact(req, res){
     const id = Number(req.params.id)
   
-    pool.query('DELETE FROM contact WHERE id = $1', [id], (err, data) => {
+    pool.query('DELETE FROM tbl_api_contact WHERE id = $1', [id], (err, data) => {
       if (err) return err;
       return response.successResponse(
         res, 200, `Contact with ID: ${id} deleted`
