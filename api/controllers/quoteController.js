@@ -8,7 +8,7 @@ class quoteController {
   static createQuote(req, res){
     const {companyName, loadingSite, companyEmail, companyPhone, product, tonnage, truckType} = req.body;
     try {
-      const query = 'SELECT * FROM quote WHERE companyname = $1'; 
+      const query = 'SELECT * FROM tbl_api_quote WHERE companyname = $1'; 
       pool.query(query, [companyName], (err, data) => {
         if(err) return err;
         if(data.rowCount > 0){
@@ -27,7 +27,7 @@ class quoteController {
 
       finally {
 
-        const insertQuery = 'INSERT INTO quote (companyname, loadingsite, companyemail, companyphone, product, tonnage, trucktype) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id';
+        const insertQuery = 'INSERT INTO tbl_api_quote (companyname, loadingsite, companyemail, companyphone, product, tonnage, trucktype) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id';
         pool.query(insertQuery, [companyName, loadingSite, companyEmail, companyPhone, product, tonnage, truckType], (err, data) => {
           if(err) return err;
           const { id } = data.rows[0];
@@ -41,7 +41,7 @@ class quoteController {
   
 
   static getQuote(req, res){
-    pool.query('SELECT * FROM quote ORDER BY id ASC', (err, data) => {
+    pool.query('SELECT * FROM tbl_api_quote ORDER BY id ASC', (err, data) => {
       if (err) return err;
       return response.successResponse(
         res, 201, 'All counter items', data.rows,
@@ -51,7 +51,7 @@ class quoteController {
 
   static getQuoteById(req, res){
     const id = Number(req.params.id)
-      pool.query('SELECT * FROM quote WHERE id = $1', [id], (err, data) => {
+      pool.query('SELECT * FROM tbl_api_quote WHERE id = $1', [id], (err, data) => {
         if(err) return response.errorResponse(
           res, 400, 'Bad Request.'
       )
@@ -73,7 +73,7 @@ class quoteController {
       const { companyName, loadingSite, companyEmail, companyPhone, product, tonnage, truckType } = req.body
 
       try {
-           const validateQuoteIdQuery = 'SELECT * FROM quote WHERE id = $1';
+           const validateQuoteIdQuery = 'SELECT * FROM tbl_api_quote WHERE id = $1';
            pool.query(validateQuoteIdQuery, [quoteId], (err, result) =>{
              if(err) return err;
              if(result.rowCount <= 0){
@@ -81,8 +81,18 @@ class quoteController {
                  res, 404, 'Quote could not be found'
                )
              }
-           })
-      }
+           });
+           const recordExistsQuery = 'SELECT * FROM tbl_api_quote WHERE companyname = $1 AND id <> $2';
+           pool.query(recordExistsQuery, [companyName, quoteId], (err, result) =>{
+             if(err) return err;
+             if(result.rowCount > 0){
+               return response.errorResponse(
+                 res, 409, 'Record already exist.'
+               )
+             }
+           });
+      
+          }
 
         catch(err) {
           return response.errorResponse(
@@ -92,7 +102,7 @@ class quoteController {
         }
 
         finally {
-          const updateQuoteQuery = 'UPDATE quote SET companyname = $1, loadingsite = $2, companyemail = $3, companyphone = $4, product = $5, tonnage = $6, trucktype = $7 WHERE id = $8';
+          const updateQuoteQuery = 'UPDATE tbl_api_quote SET companyname = $1, loadingsite = $2, companyemail = $3, companyphone = $4, product = $5, tonnage = $6, trucktype = $7 WHERE id = $8';
           pool.query(updateQuoteQuery, [companyName, loadingSite, companyEmail, companyPhone, product, tonnage, truckType, quoteId], (err, data) =>{
             if(err) return err;
 
@@ -108,7 +118,7 @@ class quoteController {
   static deleteQuote(req, res){
     const id = Number(req.params.id)
   
-    pool.query('DELETE FROM quote WHERE id = $1', [id], (err, results) => {
+    pool.query('DELETE FROM tbl_api_quote WHERE id = $1', [id], (err, results) => {
       if (err) return err;
       return response.successResponse(
         res, 200, `Quote with ID: ${id} deleted`

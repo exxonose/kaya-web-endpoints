@@ -5,6 +5,8 @@ const dropQuotesTable = 'DROP TABLE quote CASCADE';
 const dropCountersTable = 'DROP TABLE counter';
 const dropContactsTable = 'DROP TABLE contact';
 const dropsiteAppsTable = 'DROP TABLE siteapp';
+const dropsiteAppsTable = 'DROP TABLE service';
+const dropsiteAppsTable = 'DROP TABLE template';
 
 async function deleteTables() {
   try {
