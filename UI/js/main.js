@@ -24,22 +24,21 @@ fetch(url).then((resp) => resp.json())
     }
   
 })  
-.catch(function(error) {
-  console.log(error);
-});   
+.catch((error) => {
+  console.log(error, 'request failed');
+}); 
 
 
 //GET SITEAPP or MENUS
+
+const navbar = document.querySelector("#navbar");
+const ul = document.querySelector(".navbar-nav");
+const li = document.querySelector(".menu-list");
 
 fetch('http://localhost:8000/api/v1/siteapp').then((resp) => resp.json())
 .then((result) =>{
   const arrayRec = result.data.length;
 for(let i=0; i < arrayRec; i++){
-  const navbar = document.querySelector("#navbar");
-  const ul = document.querySelector(".navbar-nav");
-  const li = document.querySelector(".menu-list");
-  
-  
 
   li.textContent = result.data[i].name;
   navbar.appendChild(ul);
@@ -50,8 +49,8 @@ for(let i=0; i < arrayRec; i++){
 
 })
 
-.catch(function(error) {
-  console.log(error);
+.catch((error) =>{
+ console.log('Internal Service Error', error);
 });
  
 
@@ -91,8 +90,8 @@ for(let i=0; i < arrayData; i++){
 
 })
 
-.catch(function(error) {
-  console.log(error);
+.catch((error) =>{
+  console.log(error, 'Internal Service Error')
 });
  
 
@@ -128,92 +127,15 @@ fetch('http://localhost:8000/api/v1/template').then((resp) => resp.json())
   const copyRight = document.querySelector(".copyRight");
   copyRight.textContent = result.data[i].copyright;
 
-  
-  // const facebookIcon = document.querySelector(".facebookIcon");
-  // facebookIcon.textContent = result.data[i].facebook;
-
-
-
    }
 })
 
-.catch(function(error) {
-  console.log(error);
+.catch((error) =>{
+  return error.errorResponse(error, 'Internal Service Error')
 });
  
 
-//POST CONTACT
-
-document.getElementById('postData').addEventListener('submit', postData)
-
-function postData(event){
-    event.preventDefault();
-   
-    let firstName = document.getElementById('firstName').value;
-    let lastName = document.getElementById('lastName').value;
-    let email = document.getElementById('email').value;
-    let phoneNumber = document.getElementById('phoneNumber').value;
-    let message = document.getElementById('message').value;
-
-    console.log('Posting request to Kaya API...');
-    fetch('http://localhost:8000/api/v1/contact/', 
-    {
-      headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-      method: 'POST',
-      body: JSON.stringify({firstName, lastName, email, phoneNumber, message})
-
-    }).then(function(response) {
-      return response.json();
-    }).then(function(data) {
-      console.log('Contact added:', data);
-    })
-    .catch(function(error) {
-        console.log('Request failure', error);
-      }); 
-
- }
-//POST CONTACT
-
-document.getElementById('postData').addEventListener('submit', postData)
-
-function postData(event){
-    event.preventDefault();
-   
-    let firstName = document.getElementById('firstName').value;
-    let lastName = document.getElementById('lastName').value;
-    let email = document.getElementById('email').value;
-    let phoneNumber = document.getElementById('phoneNumber').value;
-    let message = document.getElementById('message').value;
-
-    console.log('Posting request to Kaya API...');
-    fetch('http://localhost:8000/api/v1/contact/', 
-    {
-      headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'Cache-Control': 'no-cache'
-    },
-      method: 'POST',
-      body: JSON.stringify({firstName, lastName, email, phoneNumber, message})
-
-    }).then(function(response) {
-      return response.json();
-    }).then(function(data) {
-      console.log('Contact has been cadded', data);
-    })
-    .catch(function(error) {
-        console.log('Request failure', error);
-      }); 
-
- }
- 
-
- //POST QUOTE
-
- //POST CONTACT
+ //POST QUOTE 
 
 document.getElementById('postQuote').addEventListener('submit', postQuote)
 
