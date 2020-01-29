@@ -32,8 +32,8 @@ class counterController {
  
           finally {
 
-            const insertQuery = 'INSERT INTO tbl_api_counter (amount, name) VALUES ($1, $2) RETURNING id';
-            pool.query(insertQuery, [amount, name], (err, data) => {
+            const insertQuery = 'INSERT INTO tbl_api_counter (amount, name, created_on) VALUES ($1, $2, $3) RETURNING id';
+            pool.query(insertQuery, [amount, name, dateCreated], (err, data) => {
               if(err) return err;
               const { id } = data.rows[0];
               return response.successResponse(

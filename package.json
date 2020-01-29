@@ -30,6 +30,7 @@
     "@babel/preset-env": "^7.4.3",
     "@babel/register": "^7.4.0",
     "@babel/runtime": "^7.4.3",
+    "@types/dotenv": "^8.2.0",
     "axios": "^0.19.0",
     "bcrypt": "^3.0.5",
     "bcrypt-nodejs": "0.0.3",

@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import validator from '../middlewares/validator';
+import token from '../middlewares/checker';
 import  userController from '../controllers/userController';
 import counterController from '../controllers/counterController';
 import siteController from '../controllers/siteAppController';
@@ -8,28 +9,41 @@ import contactController from '../controllers/contactController';
 import serviceController from '../controllers/serviceController';
 import templateController from '../controllers/templateController';
 
+
 const routes = Router();
 
 routes.get('/', function(req, res){
      res.send({status:200, msg:'Welcome to Kaya Web App'});    
 });
 
+// //Add Users
+// routes.post('/users',
+// validator.validateUser,
+//  userController.createUser);
 
-
-//Users
-routes.post('/users',
+ // Register Users
+routes.post('/register',
 validator.validateUser,
  userController.createUser);
 
- //routes.post('users/', userController.signin);
+
+// Login
+ routes.post('/login', 
+ //validator.validateUserSignIn,
+ userController.login);
+
+
  routes.get('/users', userController.getUsers);
 routes.get('/users/:id', userController.getUserById);
 
  routes.put('/users/:id',
+ token.checker,
   validator.validateUser, 
  userController.updateUser);
 
-routes.delete('/users/:id', userController.deleteUser);
+routes.delete('/users/:id', 
+token.checker,
+userController.deleteUser);
 
 //Site Applications
 routes.post('/siteApp',siteController.createSiteApp);
@@ -59,7 +73,7 @@ counterController.deleteCounter);
 
 //Quote
 routes.post('/quote',
-validator.validateQuote,
+//validator.validateQuote,
  quoteController.createQuote);
 
 routes.get('/quote', quoteController.getQuote);

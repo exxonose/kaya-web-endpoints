@@ -239,42 +239,81 @@
           </div>
           <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
         </div>
-
+        
         <!-- DataTables Example -->
         <div class="card mb-3">
           <div class="card-header">
             <i class="fas fa-table"></i>
            Users Record</div>
           <div class="card-body">
-            <div class="table-responsive">
+            <div class="table-responsive mainTable">
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Address</th>
-                    <th>Phone Number</th>
-                    <th>Date Created</th>
-                  </tr>
-                </thead>
-                <tfoot>
-                  <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Address</th>
-                    <th>Phone Number</th>
-                    <th>Date Created</th>
-                  </tr>
-                </tfoot>
-                <tbody>
-                  <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                </tbody>
+                  <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Address</th>
+                        <th>Phone Number</th>
+                        <th>Date Created</th>
+                        <th></th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tfoot>
+                      <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Address</th>
+                        <th>Phone Number</th>
+                        <th>Date Created</th>
+                        <th></th>
+                        <th></th>
+                      </tr>
+                    </tfoot>
+                    <tbody id="newUser">
+                      <tr class="tableRow">
+                        <td class="userName"></td>
+                        <td class="emailAdd"></td>
+                        <td class="userAdd"></td>
+                        <td class="phoneNumber"></td>
+                        <td class="createdAt"></td>
+                        <td class="edit" type="button">Edit</td><br>
+                        <td class="delete" type="button">Delete</td>
+                      </tr>
+                    </tbody>
+                    <tbody id="newUser">
+                        <tr class="tableRow">
+                          <td class="userName"></td>
+                          <td class="emailAdd"></td>
+                          <td class="userAdd"></td>
+                          <td class="phoneNumber"></td>
+                          <td class="createdAt"></td>
+                          <td class="edit" type="button">Edit</td><br>
+                          <td class="delete" type="button">Delete</td>
+                        </tr>
+                      </tbody>
+                      <tbody id="newUser">
+                          <tr class="tableRow">
+                            <td class="userName"></td>
+                            <td class="emailAdd"></td>
+                            <td class="userAdd"></td>
+                            <td class="phoneNumber"></td>
+                            <td class="createdAt"></td>
+                            <td class="edit" type="button">Edit</td><br>
+                            <td class="delete" type="button">Delete</td>
+                          </tr>
+                        </tbody>
+                        <tbody id="newUser">
+                            <tr class="tableRow">
+                              <td class="userName"></td>
+                              <td class="emailAdd"></td>
+                              <td class="userAdd"></td>
+                              <td class="phoneNumber"></td>
+                              <td>2019-09-09 23:33:00</td>
+                              <td class="edit" type="button">Edit</td><br>
+                              <td class="delete" type="button">Delete</td>
+                            </tr>
+                          </tbody>
               </table>
             </div>
           </div>
@@ -322,6 +361,12 @@
       </div>
     </div>
   </div>
+
+
+  <!-- Other Javascript -->
+
+  <script src="../js/user.js"></script>
+
 
   <!-- Bootstrap core JavaScript-->
   <script src="vendor/jquery/jquery.min.js"></script>

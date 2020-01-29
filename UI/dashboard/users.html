@@ -19,7 +19,7 @@
 
   <!-- Custom styles for this template-->
   <link href="css/sb-admin.css" rel="stylesheet">
-
+   <link href="css/add-user.css" rel="stylesheet">
 </head>
 
 <body id="page-top">
@@ -127,7 +127,7 @@
           <span>Tickets</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="counter.html">
+        <a class="nav-link" href="counters.html">
           <i class="far fa-chart-bar"></i>
           <span>Counters</span></a>
       </li>
@@ -166,7 +166,27 @@
             <i class="fas fa-table"></i>
            List of all Users</div>
           <div class="card-body">
-            <div class="table-responsive">
+              <button class="open-button" onclick="openForm()">Add User</button>
+            <div class="form-popup" id="myForm">
+                <form action="localhost:8000/users.php" class="form-container">
+                  <h1>Add a new user</h1>
+                  <label for="name"><b>Name</b></label>
+                  <input id="new-task" type="text" placeholder="Enter Full Name" name="fullName" required>
+
+                  <label for="email"><b>Email</b></label>
+                  <input id="new-task" type="text" placeholder="Enter Email" name="email" required>
+
+                  <label for="address"><b>Address</b></label>
+                  <input id="new-task" type="text" placeholder="Enter Address" name="address" required>
+
+                  <label for="phone"><b>Phone Number</b></label>
+                  <input id="new-task" type="text" placeholder="Enter Phone Number" name="phoneNumber" required>
+
+                  <button type="submit" class="btn">Add</button>
+                  <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+                </form>
+            </div>
+            <div class="table-responsive mainTable">
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                   <tr>
@@ -175,6 +195,8 @@
                     <th>Address</th>
                     <th>Phone Number</th>
                     <th>Date Created</th>
+                    <th></th>
+                    <th></th>
                   </tr>
                 </thead>
                 <tfoot>
@@ -184,20 +206,56 @@
                     <th>Address</th>
                     <th>Phone Number</th>
                     <th>Date Created</th>
+                    <th></th>
+                    <th></th>
                   </tr>
                 </tfoot>
-                <tbody>
-                  <tr>
-                    <td>Tiger Nixon</td>
-                    <td>tnixon@gmail.com</td>
-                    <td>61 Koker close, Ikoyi Lagos</td>
-                    <td>080234569784</td>
-                    <td>2019-09-09 23:33:00</td>
+                <tbody id="newUser">
+                  <tr class="tableRow">
+                    <td class="userName"></td>
+                    <td class="emailAdd"></td>
+                    <td class="userAdd"></td>
+                    <td class="phoneNumber"></td>
+                    <td class="createdAt"></td>
+                    <td class="edit" type="button">Edit</td><br>
+                    <td class="delete" type="button">Delete</td>
                   </tr>
                 </tbody>
+                <tbody id="newUser">
+                    <tr class="tableRow">
+                      <td class="userName"></td>
+                      <td class="emailAdd"></td>
+                      <td class="userAdd"></td>
+                      <td class="phoneNumber"></td>
+                      <td class="createdAt"></td>
+                      <td class="edit" type="button">Edit</td><br>
+                      <td class="delete" type="button">Delete</td>
+                    </tr>
+                  </tbody>
+                  <tbody id="newUser">
+                      <tr class="tableRow">
+                        <td class="userName"></td>
+                        <td class="emailAdd"></td>
+                        <td class="userAdd"></td>
+                        <td class="phoneNumber"></td>
+                        <td class="createdAt"></td>
+                        <td class="edit" type="button">Edit</td><br>
+                        <td class="delete" type="button">Delete</td>
+                      </tr>
+                    </tbody>
+                    <tbody id="newUser">
+                        <tr class="tableRow">
+                          <td class="userName"></td>
+                          <td class="emailAdd"></td>
+                          <td class="userAdd"></td>
+                          <td class="phoneNumber"></td>
+                          <td>2019-09-09 23:33:00</td>
+                          <td class="edit" type="button">Edit</td><br>
+                          <td class="delete" type="button">Delete</td>
+                        </tr>
+                      </tbody>
               </table>
             </div>
-          </div>
           <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
         </div>
 
@@ -264,6 +322,15 @@
   <!-- Demo scripts for this page-->
   <script src="js/demo/datatables-demo.js"></script>
 
+  <!-- Users DOM script-->
+  <script src="../js/user.js"></script>
+
+  <!-- API ENDPOINTS-->
+  <script src="../js/main.js"></script>
+
 </body>
 
 </html>
+
+
+

@@ -30,21 +30,21 @@ window.onload = () =>{
     if(lastName.value === '') {
       errorMsgResponse.textContent = 'Name is required';
       errorMsgResponse.className = 'errorMessage';
-      firstName.focus();
+      lastName.focus();
       return false;
     }
      
     if(phoneNumber.value === '') {
       errorMsgResponse.textContent = 'Phone number is required';
       errorMsgResponse.className = 'errorMessage';
-      firstName.focus();
+      phoneNumber.focus();
       return false;
     }
   
     if(email.value === '') {
       errorMsgResponse.textContent = 'email is required';
       errorMsgResponse.className = 'errorMessage';
-      firstName.focus();
+      email.focus();
       return false;
     }
   
@@ -89,9 +89,6 @@ window.onload = () =>{
        }
       });
      
-       
-
-
         
  const validateEmail = (email) => {
     const atSymbol = email.indexOf('@');
@@ -107,3 +104,5 @@ window.onload = () =>{
       window.location = `${destination}`;
     }, 3000);
   };
+
+  

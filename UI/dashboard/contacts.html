@@ -127,7 +127,7 @@
           <span>Tickets</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="counter.html">
+        <a class="nav-link" href="counters.html">
           <i class="far fa-chart-bar"></i>
           <span>Counters</span></a>
       </li>
@@ -166,7 +166,7 @@
             <i class="fas fa-table"></i>
             Support Tickets</div>
           <div class="card-body">
-            <div class="table-responsive">
+            <div class="table-responsive mainTable">
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                   <tr>
@@ -176,6 +176,8 @@
                     <th>Phone Number</th>
                     <th>Message</th>
                     <th>Date Submitted</th>
+                    <th></th>
+                    <th></th>
                   </tr>
                 </thead>
                 <tfoot>
@@ -186,18 +188,58 @@
                     <th>Phone Number</th>
                     <th>Message</th>
                     <th>Date Submitted</th>
+                    <th></th>
+                    <th></th>
                   </tr>
                 </tfoot>
-                <tbody>
-                  <tr>
-                    <td>John</td>
-                    <td>Ibrahim</td>
-                    <td>john.ibrahim@kayaafrica.co</td>
-                    <td>09034563214</td>
-                    <td>Hello, how can I order a truck from your website?</td>
-                    <td>2019-09-10 12:32:00</td>
+                <tbody class="supportBody">
+                  <tr class="tableRow">
+                    <td class="firstName"></td>
+                    <td class="lastName"></td>
+                    <td class="customerEmail"></td>
+                    <td class="phoneNumber"></td>
+                    <td class="customerMsg"></td>
+                    <td></td>
+                    <td class="edit" type="button">Edit</td><br>
+                    <td class="delete" type="button">Delete</td>
                   </tr>
                 </tbody>
+                <tbody class="supportBody">
+                    <tr class="tableRow">
+                      <td class="firstName"></td>
+                      <td class="lastName"></td>
+                      <td class="customerEmail"></td>
+                      <td class="phoneNumber"></td>
+                      <td class="customerMsg"></td>
+                      <td></td>
+                      <td class="edit" type="button">Edit</td><br>
+                      <td class="delete" type="button">Delete</td>
+                    </tr>
+                  </tbody>
+                  <tbody class="supportBody">
+                      <tr class="tableRow">
+                        <td class="firstName"></td>
+                        <td class="lastName"></td>
+                        <td class="customerEmail"></td>
+                        <td class="phoneNumber"></td>
+                        <td class="customerMsg"></td>
+                        <td></td>
+                        <td class="edit" type="button">Edit</td><br>
+                        <td class="delete" type="button">Delete</td>
+                      </tr>
+                    </tbody>
+                    <tbody class="supportBody">
+                        <tr class="tableRow">
+                          <td class="firstName"></td>
+                          <td class="lastName"></td>
+                          <td class="customerEmail"></td>
+                          <td class="phoneNumber"></td>
+                          <td class="customerMsg"></td>
+                          <td></td>
+                          <td class="edit" type="button">Edit</td><br>
+                          <td class="delete" type="button">Delete</td>
+                        </tr>
+                      </tbody>
               </table>
             </div>
           </div>
@@ -249,6 +291,9 @@
       </div>
     </div>
   </div>
+
+  <!-- JavaScript for contact API endpoint-->
+  <script src="../js/support.js"></script>
 
   <!-- Bootstrap core JavaScript-->
   <script src="vendor/jquery/jquery.min.js"></script>

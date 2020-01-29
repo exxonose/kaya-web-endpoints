@@ -72,7 +72,7 @@ class serviceController {
     const serviceId = Number(id);
     
       const {icon, heading, description} = req.body;
-
+     
       try {
            const validateServiceIdQuery = 'SELECT * FROM tbl_api_service WHERE id = $1';
            pool.query(validateServiceIdQuery, [serviceId], (err, result) =>{
@@ -84,9 +84,11 @@ class serviceController {
              }
            });
            const recordExistsQuery = 'SELECT * FROM tbl_api_service WHERE heading = $1 AND id <> $2';
+  
            pool.query(recordExistsQuery, [heading, serviceId], (err, result) =>{
              if(err) return err;
              if(result.rowCount > 0){
+          
                return response.errorResponse(
                  res, 409, 'Record already exist.'
                )
@@ -106,7 +108,6 @@ class serviceController {
           const updateServiceQuery = 'UPDATE tbl_api_service SET icon = $1, heading = $2, description = $3';
           pool.query(updateServiceQuery, [icon, heading, description, serviceId], (err, data) =>{
             if(err) return err;
-
             return response.successResponse(
               res, 201, 'Record Updated Successfully', {icon, heading, description}
             )

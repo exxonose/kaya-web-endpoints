@@ -1,0 +1,205 @@
+.open-button {
+    background-color: #555;
+    color: white;
+    padding: 10px 16px;
+    border: none;
+    cursor: pointer;
+    opacity: 0.8;
+    position: fixed;
+    bottom: 20px;
+    right: 28px;
+    width: 200px;
+  }
+  
+  /* The popup form - hidden by default */
+  .form-popup {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    right: 15px;
+    border: 1px solid #f1f1f1;
+    z-index: 9;
+  }
+  
+  /* Add styles to the form container */
+  .form-container {
+    max-width: 300px;
+    padding: 10px;
+    background-color: white;
+  }
+  
+  /* Full-width input fields */
+  .form-container input[type=text], .form-container input[type=password] {
+    width: 100%;
+    padding: 15px;
+    margin: 5px 0 22px 0;
+    border: none;
+    background: #f1f1f1;
+  }
+  
+  /* When the inputs get focus, do something */
+  .form-container input[type=text]:focus, .form-container input[type=password]:focus {
+    background-color: #ddd;
+    outline: none;
+  }
+  
+  /* Set a style for the submit/login button */
+  .form-container .btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px 20px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    margin-bottom:10px;
+    opacity: 0.8;
+  }
+
+  /* Add a red background color to the cancel button */
+.form-container .cancel {
+    background-color: red;
+  }
+  
+  /* Add some hover effects to buttons */
+  .form-container .btn:hover, .open-button:hover {
+    opacity: 1;
+  }
+ 
+
+
+  /*CSS FOR DOM */
+
+
+  /*TO DO:
+1. Update to responsive layout.
+*/
+
+// COLOURS
+$background-color: #fff;
+$base-text-color: #333; // #333
+$light-text-color: lighten($base-text-color, 32); // #888
+
+/* Basic Style */
+body {
+  background: $background-color;
+  color: $base-text-color;
+  font-family: 'Cabin', sans-serif;
+}
+.container {
+  display: block;
+  width: 400px;
+  margin: 100px auto 0;
+}
+tbody {
+  margin: 0;
+  padding: 0;
+}
+td * {
+  float: left;
+}
+td, h3 {
+  clear:both;
+  list-style:none;
+}
+input, button {
+  outline: none;
+}
+button {
+  background: none;
+  border: 0px;
+  color: $light-text-color;
+  font-size: 15px;
+  width: 60px;
+  margin: 10px 0 0;
+  font-family: 'Cabin', sans-serif;
+  cursor: pointer;
+}
+button:hover {
+  color: $base-text-color;
+}
+/* Heading */
+h3,
+label[for='new-task'] {
+  color: $base-text-color;
+  font-weight: 700;
+  font-size: 15px;
+  border-bottom: 2px solid $base-text-color;
+  padding: 30px 0 10px;
+  margin: 0;
+  text-transform: uppercase;
+}
+input[type="text"] {
+  margin: 0;
+  font-size: 18px;
+  line-height: 18px;
+  height: 18px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  background: $background-color;
+  border-radius: 6px;
+  font-family: 'Cabin', sans-serif;
+  color: $light-text-color;
+}
+input[type="text"]:focus {
+  color: $base-text-color;
+}
+
+/* New Task */
+label[for='new-task'],
+label[for='name'],
+label[for='email'],
+label[for='address'],
+label[for='phone'] {
+  display: block;
+  margin: 0 0 20px;
+}
+input#new-task {
+  float: left;
+  width: 318px;
+}
+p > button:hover {
+  color: #0FC57C;
+}
+
+/* Task list */
+td {
+  overflow: hidden;
+  padding: 20px 0;
+  border-bottom: 1px solid #eee;
+}
+td > input[type="checkbox"] {
+  margin: 0 10px;
+  position: relative;
+  top: 15px;
+}
+td > label {
+  font-size: 18px;
+  line-height: 40px;
+  width: 237px;
+  padding: 0 0 0 11px;
+}
+td >  input[type="text"] {
+  width: 226px;
+}
+td > .delete:hover {
+  color: #CF2323;
+}
+
+/* Completed */
+#completed-tasks label {
+  text-decoration: line-through;
+  color: $light-text-color;
+}
+
+/* Edit Task */
+tbody td input[type=text] {
+  display:none;
+}
+
+tbody td.editMode input[type=text] {
+  display:block;
+}
+
+tbody td.editMode label {
+  display:none;
+}

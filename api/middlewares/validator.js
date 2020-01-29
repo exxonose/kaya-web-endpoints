@@ -4,6 +4,43 @@ import response from '../middlewares/response';
 
 class validator {
 
+    static validateUserSignUp(req, res, next) {
+        const data  = req.body;
+        const schema = Joi.object().keys({
+            fullName: Joi.string().required().regex(/^[A-Z]+ [A-Z]+$/i),
+            email: Joi.string().required().email(),
+            password: Joi.string().regex(/^[a-zA-Z0-9]{6,80}$/).required(),
+            address: Joi.string().required(),
+            phoneNumber: Joi.string().regex(/^\d{4}-\d{3}-\d{4}$/).required(),
+        });
+        Joi.validate(data, schema, (err, value) => {
+            if(err)
+            {
+                return response.errorResponse(
+                    res, 422, err.message.replace(/['"]/g, '')
+                )
+            }
+            return next();
+        }) 
+    }
+
+    static validateUserSignIn(req, res, next) {
+        const data = req.body;
+        const schema = Joi.object().keys({
+            email: Joi.string().required().email(),
+            password: Joi.string().regex(/^[a-zA-Z0-9]{6,16}$/).required(),
+        });
+
+        Joi.validate(data, schema, (err) => {
+            if(err) {
+                return response.errorResponse(
+                    res, 422, err.message.replace(/['"]/g, '')
+                )
+            }
+            return next();
+        })
+    }
+
   static validateCounter(req, res, next) {
     const data = req.body;
     const schema = Joi.object().keys({
@@ -49,7 +86,7 @@ class validator {
         email:  Joi.string().required().email(),
         password: Joi.string().regex(/^[a-zA-Z0-9]{6,16}$/).required(),
         address: Joi.string().required(),
-        phoneNumber: Joi.string().regex(/^\d{4}-\d{3}-\d{4}$/).required(),
+        phoneNumber: Joi.string().required(),
 
     });
   

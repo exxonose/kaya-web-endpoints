@@ -127,7 +127,7 @@
           <span>Tickets</span></a>
       </li>
       <li class="nav-item active">
-        <a class="nav-link" href="counter.html">
+        <a class="nav-link" href="counters.html">
           <i class="far fa-chart-bar"></i>
           <span>Counters</span></a>
       </li>
@@ -161,13 +161,13 @@
         </ol>
 
         <!-- DataTables Example -->
-        <div class="card mb-3">
-          <div class="card-header">
+        <div class="card mb-3 mainContainer">
+          <div class="card-header cardHeader">
             <i class="fas fa-table"></i>
            Website Counters</div>
-          <div class="card-body">
-            <div class="table-responsive">
-              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+          <div class="card-body cardBody">
+            <div class="table-responsive tableResponsive">
+              <table class="table table-bordered mainTable" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                   <tr>
                     <th>Amount</th>
@@ -184,37 +184,37 @@
                 </tfoot>
                 <tbody>
                     <tr>
-                      <td>2</td>
-                      <td>Branch</td>
-                      <td>2019-09-12T13:25:02.001Z</td>
+                      <td class="firstChildValue"></td>
+                      <td class="descriptor"></td>
+                      <td  class="createdOn"></td>
                     </tr>
                   </tbody>
                 <tbody>
                   <tr>
-                    <td>61299</td>
-                    <td>Total Km</td>
-                    <td>2019-09-12T13:35:03.101Z</td>
+                    <td class="firstChildValue"></td>
+                      <td class="descriptor"></td>
+                      <td  class="createdOn"></td>
                   </tr>
                 </tbody>
                 <tbody>
                     <tr>
-                      <td>20</td>
-                      <td>Client</td>
-                      <td>2019-09-12T13:35:03.101Z</td>
+                      <td class="firstChildValue"></td>
+                      <td class="descriptor"></td>
+                      <td  class="createdOn"></td>
                     </tr>
                   </tbody>
                   <tbody>
                     <tr>
-                      <td>12,500</td>
-                      <td>Total Tonnage</td>
-                      <td>2019-09-12T13:35:03.101Z</td>
+                      <td class="firstChildValue"></td>
+                      <td class="descriptor"></td>
+                      <td  class="created_on"></td>
                     </tr>
                   </tbody>
                   <tbody>
                     <tr>
-                      <td>3500</td>
-                      <td>Fleet</td>
-                      <td>2019-09-12T13:35:03.101Z</td>
+                      <td class="firstChildValue"></td>
+                      <td class="descriptor"></td>
+                      <td  class="created_on"></td>
                     </tr>
                   </tbody>
               </table>
@@ -285,6 +285,10 @@
 
   <!-- Demo scripts for this page-->
   <script src="js/demo/datatables-demo.js"></script>
+
+  
+  <!-- API ENDPOINTS-->
+  <script src="../js/counters.js"></script>
 
 </body>
 

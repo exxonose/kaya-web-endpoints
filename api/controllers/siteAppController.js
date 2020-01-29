@@ -66,7 +66,7 @@ class siteController {
     const {id} = req.params
     const siteId = Number(id);
     const {name} = req.body
-  
+   
   try {
     const validateSiteAppQuery = 'SELECT * FROM tbl_api_siteapp WHERE id = $1';
     pool.query(validateSiteAppQuery, [siteId], (err, data) =>{
@@ -101,7 +101,7 @@ class siteController {
         if(err) return err;
   
         return response.successResponse(
-          res, 200, 'Record Successfully Updated', {name}
+          res, 201, 'Record Successfully Updated', {name}
         )
       })
   
